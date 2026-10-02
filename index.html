@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDITAURA — Nishant Agrawal | Cinematic NLE Portfolio</title>
+  <meta name="description" content="EDITAURA — The Cinematic NLE Portfolio of Nishant Agrawal (@editaura36). Video Editor, Colorist, Motion Designer & 3D Generalist creating high-retention viral content, commercials, and narrative films.">
+  <meta name="keywords" content="Nishant Agrawal, EDITAURA, editaura36, Video Editor, Colorist, Motion Designer, DaVinci Resolve, Premiere Pro, Blender, 3D Generalist">
+  <meta name="author" content="Nishant Agrawal">
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:title" content="EDITAURA — Nishant Agrawal | Cinematic NLE Portfolio">
+  <meta property="og:description" content="Award-winning video editing, cinematic color grading, and kinetic motion design portfolio for Nishant Agrawal.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon (SVG Reel) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2356DEFF'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M10 8l6 4-6 4V8z' fill='%230B0B0C'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- External Libraries: Lenis & GSAP CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body class="nle-darkroom">
+
+  <!-- Custom Hardware Cursor (Desktop) -->
+  <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
+    <div id="cursor-dot" class="cursor-dot"></div>
+    <div id="cursor-ring" class="cursor-ring">
+      <span id="cursor-label" class="cursor-label">REC</span>
+    </div>
+  </div>
+
+  <!-- SVG Procedural Film Grain Overlay -->
+  <div class="film-grain-overlay" aria-hidden="true"></div>
+
+  <!-- FIXED MASTER HUD (HEADER) -->
+  <header id="master-hud" class="master-hud" role="banner">
+    <div class="hud-container">
+      
+      <!-- HUD Left: Brand & Live Status -->
+      <div class="hud-left">
+        <a href="#hero" class="brand-link" aria-label="EDITAURA Home">
+          <span class="brand-name">EDITAURA</span>
+          <span class="brand-handle">@editaura36</span>
+        </a>
+        <div class="rec-badge" aria-label="Recording status active">
+          <span class="rec-dot"></span>
+          <span class="rec-text">REC</span>
+        </div>
+      </div>
+
+      <!-- HUD Center: Dynamic SMPTE Timecode & Sequence Name -->
+      <div class="hud-center">
+        <div class="active-clip-pill" id="active-clip-pill">
+          <span class="sequence-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+              <line x1="7" y1="2" x2="7" y2="22"></line>
+              <line x1="17" y1="2" x2="17" y2="22"></line>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <line x1="2" y1="7" x2="7" y2="7"></line>
+              <line x1="2" y1="17" x2="7" y2="17"></line>
+              <line x1="17" y1="17" x2="22" y2="17"></line>
+              <line x1="17" y1="7" x2="22" y2="7"></line>
+            </svg>
+          </span>
+          <span id="active-clip-tag" class="active-clip-tag">SEQ_01_COLD_OPEN.mov</span>
+        </div>
+        <div class="smpte-readout" id="hud-timecode" aria-label="Current SMPTE Timecode">00:00:00:00</div>
+        <span class="fps-badge">24 FPS</span>
+      </div>
+
+      <!-- HUD Right: VU Audio Meters & Theme Switcher (Dark / Light) -->
+      <div class="hud-right">
+        <!-- Audio VU Meter Graphic -->
+        <div class="hud-vu-meter" aria-hidden="true" title="Audio Levels">
+          <div class="vu-channel">
+            <span class="vu-bar vu-bar-1"></span>
+            <span class="vu-bar vu-bar-2"></span>
+            <span class="vu-bar vu-bar-3"></span>
+            <span class="vu-bar vu-bar-4"></span>
+          </div>
+          <div class="vu-channel">
+            <span class="vu-bar vu-bar-1"></span>
+            <span class="vu-bar vu-bar-2"></span>
+            <span class="vu-bar vu-bar-3"></span>
+            <span class="vu-bar vu-bar-4"></span>
+          </div>
+        </div>
+
+        <!-- Theme Mode Switcher (Dark / Light) -->
+        <div class="theme-switcher" role="radiogroup" aria-label="Theme Mode Switcher">
+          <span class="theme-label">MODE:</span>
+          <button type="button" class="theme-btn active" data-theme="dark" title="Dark Mode (Key: D or 1)" aria-checked="true">
+            <span class="theme-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </span>
+            <span class="theme-text">DARK</span>
+          </button>
+          <button type="button" class="theme-btn" data-theme="light" title="Light Mode (Key: L or 2)" aria-checked="false">
+            <span class="theme-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </span>
+            <span class="theme-text">LIGHT</span>
+          </button>
+        </div>
+
+        <!-- Quick Jump CTA -->
+        <a href="#contact" class="hud-cta-btn">LET'S CUT</a>
+
+        <!-- Mobile Side Navigation Toggle (Hamburger) -->
+        <button type="button" class="hud-nav-toggle" id="hud-nav-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="side-nav-tray" data-cursor="NAV">
+          <span class="hamburger-box">
+            <span class="hamburger-line line-1"></span>
+            <span class="hamburger-line line-2"></span>
+            <span class="hamburger-line line-3"></span>
+          </span>
+          <span class="hamburger-tag">NAV</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- CINEMATIC NLE VERTICAL NAVIGATION RAIL (DESKTOP & TABLET) -->
+  <nav id="nle-side-rail" class="nle-side-rail" aria-label="Chapters Navigation Rail">
+    <div class="side-rail-dock" id="side-rail-dock">
+      <!-- Rail Header Badge -->
+      <div class="side-rail-header" title="Click to expand / collapse chapter titles">
+        <div class="rail-header-title">
+          <span class="rail-header-dot"></span>
+          <span class="rail-header-label">CHAPTERS</span>
+        </div>
+        <button type="button" class="rail-expand-toggle" id="rail-expand-toggle" aria-label="Toggle chapter labels" title="Toggle chapter titles">
+          <span class="rail-toggle-arrow">▶</span>
+        </button>
+      </div>
+
+      <!-- Chapter Navigation Links -->
+      <ul class="side-rail-list" role="list">
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link active" data-target="#hero" aria-label="Chapter 01: Hero (Cold Open)" aria-current="true" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[01]</span>
+            <span class="nav-label">COLD OPEN</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">01</span>
+                <span class="tooltip-title">Hero (Cold Open)</span>
+              </div>
+              <span class="tooltip-seq">SEQ_01_COLD_OPEN.mov</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#reel" aria-label="Chapter 02: Reel (Showreel)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[02]</span>
+            <span class="nav-label">SHOWREEL</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">02</span>
+                <span class="tooltip-title">Reel (Showreel)</span>
+              </div>
+              <span class="tooltip-seq">REEL_2026_4K_MASTER.prores</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#work" aria-label="Chapter 03: Work (Selected Cuts)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[03]</span>
+            <span class="nav-label">SELECTED CUTS</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">03</span>
+                <span class="tooltip-title">Work (Selected Cuts)</span>
+              </div>
+              <span class="tooltip-seq">SEQ_03_SELECTED_CUTS.prproj</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#grade" aria-label="Chapter 04: Grade (Color Science)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[04]</span>
+            <span class="nav-label">COLOR SCIENCE</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">04</span>
+                <span class="tooltip-title">Grade (Color Science)</span>
+              </div>
+              <span class="tooltip-seq">LUT_GRADE_CONVERSION.drx</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#tracks" aria-label="Chapter 05: Tracks (The Tracks)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[05]</span>
+            <span class="nav-label">THE TRACKS</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">05</span>
+                <span class="tooltip-title">Tracks (The Tracks)</span>
+              </div>
+              <span class="tooltip-seq">TIMELINE_TRACK_STACK.xml</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#workflow" aria-label="Chapter 06: Workflow (Cut Pipeline)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[06]</span>
+            <span class="nav-label">CUT PIPELINE</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">06</span>
+                <span class="tooltip-title">Workflow (Cut Pipeline)</span>
+              </div>
+              <span class="tooltip-seq">WORKFLOW_PIPELINE.edl</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#toolkit" aria-label="Chapter 07: Toolkit (Edit Suite)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[07]</span>
+            <span class="nav-label">EDIT SUITE</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">07</span>
+                <span class="tooltip-title">Toolkit (Edit Suite)</span>
+              </div>
+              <span class="tooltip-seq">HARDWARE_HOTKEYS.fcpx</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#about" aria-label="Chapter 08: About (Editor's Bay)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[08]</span>
+            <span class="nav-label">EDITOR'S BAY</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">08</span>
+                <span class="tooltip-title">About (Editor's Bay)</span>
+              </div>
+              <span class="tooltip-seq">EDITORS_BAY_PROFILE.raw</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#reviews" aria-label="Chapter 09: Reviews (Client Notes)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[09]</span>
+            <span class="nav-label">REVIEW NOTES</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">09</span>
+                <span class="tooltip-title">Reviews (Client Notes)</span>
+              </div>
+              <span class="tooltip-seq">FRAME_IO_FEEDBACK.mkv</span>
+            </div>
+          </button>
+        </li>
+        <li class="side-rail-item">
+          <button type="button" class="side-nav-link" data-target="#contact" aria-label="Chapter 10: Contact (Export Spec)" data-cursor="JUMP">
+            <span class="nav-pip"></span>
+            <span class="nav-num">[10]</span>
+            <span class="nav-label">START EDIT</span>
+            <div class="nav-tooltip" role="tooltip">
+              <div class="tooltip-header">
+                <span class="tooltip-badge">10</span>
+                <span class="tooltip-title">Contact (Export Spec)</span>
+              </div>
+              <span class="tooltip-seq">EXPORT_DELIVERY_SPEC.mov</span>
+            </div>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- FLOATING MOBILE QUICK JUMP NAVIGATION BUTTON (SMARTPHONE) -->
+  <button type="button" class="mobile-nav-fab" id="mobile-nav-fab" aria-label="Open Chapter Navigation Menu" data-cursor="NAV">
+    <span class="fab-rec-dot"></span>
+    <span class="fab-num" id="fab-curr-num">01</span>
+    <span class="fab-text">CHAPTERS</span>
+    <span class="fab-icon">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="4" y1="7" x2="20" y2="7"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="17" x2="20" y2="17"></line>
+      </svg>
+    </span>
+  </button>
+
+  <!-- CINEMATIC MOBILE SIDE NAVIGATION TRAY & BACKDROP -->
+  <div class="side-nav-backdrop" id="side-nav-backdrop" aria-hidden="true"></div>
+  <aside id="side-nav-tray" class="side-nav-tray" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu" aria-hidden="true">
+    <div class="side-tray-inner">
+      
+      <!-- Tray Header -->
+      <div class="side-tray-header">
+        <div class="tray-brand-meta">
+          <span class="tray-rec-indicator"></span>
+          <div class="tray-brand-texts">
+            <span class="tray-brand-name">EDITAURA</span>
+            <span class="tray-brand-sub">NLE SEQUENCE RAIL</span>
+          </div>
+        </div>
+        <button type="button" class="side-tray-close-btn" id="side-tray-close-btn" aria-label="Close chapter menu [ESC]" data-cursor="CLOSE">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Current Sequence Status Readout -->
+      <div class="side-tray-status">
+        <span class="tray-status-label">ACTIVE CLIP:</span>
+        <span class="tray-active-clip" id="tray-active-clip">SEQ_01_COLD_OPEN.mov</span>
+      </div>
+
+      <!-- Chapters List -->
+      <nav class="side-tray-nav" role="navigation" aria-label="Chapter Jump Links">
+        <ul class="side-tray-list">
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link active" data-target="#hero" aria-label="Jump to 01 Hero (Cold Open)" aria-current="true" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[01]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Hero</span>
+                  <span class="tray-subtitle">Cold Open</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">SEQ_01</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#reel" aria-label="Jump to 02 Reel (Showreel)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[02]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Reel</span>
+                  <span class="tray-subtitle">Showreel</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">REEL_4K</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#work" aria-label="Jump to 03 Work (Selected Cuts)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[03]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Work</span>
+                  <span class="tray-subtitle">Selected Cuts</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">SEQ_03</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#grade" aria-label="Jump to 04 Grade (Color Science)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[04]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Grade</span>
+                  <span class="tray-subtitle">Color Science</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">LUT_709</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#tracks" aria-label="Jump to 05 Tracks (The Tracks)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[05]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Tracks</span>
+                  <span class="tray-subtitle">The Tracks</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">AV_STACK</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#workflow" aria-label="Jump to 06 Workflow (Cut Pipeline)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[06]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Workflow</span>
+                  <span class="tray-subtitle">Cut Pipeline</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">5_STAGE</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#toolkit" aria-label="Jump to 07 Toolkit (Edit Suite)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[07]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Toolkit</span>
+                  <span class="tray-subtitle">Edit Suite</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">HOTKEYS</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#about" aria-label="Jump to 08 About (Editor's Bay)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[08]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">About</span>
+                  <span class="tray-subtitle">Editor's Bay</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">PROFILE</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#reviews" aria-label="Jump to 09 Reviews (Client Notes)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[09]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Reviews</span>
+                  <span class="tray-subtitle">Client Notes</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">FRAME_IO</span>
+            </button>
+          </li>
+          <li class="tray-item">
+            <button type="button" class="tray-nav-link" data-target="#contact" aria-label="Jump to 10 Contact (Export Spec)" data-cursor="JUMP">
+              <div class="tray-link-main">
+                <span class="tray-num">[10]</span>
+                <div class="tray-name-wrap">
+                  <span class="tray-title">Contact</span>
+                  <span class="tray-subtitle">Export Spec</span>
+                </div>
+              </div>
+              <span class="tray-seq-tag">EXPORT</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Tray Footer -->
+      <div class="side-tray-footer">
+        <a href="#contact" class="tray-cta-action" id="tray-contact-cta" data-cursor="CUT">
+          <span>INITIALIZE PROJECT CUT</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+        <div class="tray-footer-specs">
+          <span>24 FPS SMPTE TIMEBASE</span>
+          <span>NISHANT AGRAWAL // @editaura36</span>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- MAIN NLE WORKSPACE (CHAPTERS) -->
+  <main id="nle-workspace" class="nle-workspace">
+
+    <!-- CHAPTER 01: HERO ("Cold Open") -->
+    <section id="hero" class="nle-chapter hero-section" data-sequence="SEQ_01_COLD_OPEN.mov" data-title="Cold Open">
+      <!-- Generative Canvas Noise / Flare Plate -->
+      <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+
+      <!-- Standard Page Unified Section Container -->
+      <div class="section-container hero-container">
+        
+        <!-- Hero Content Core -->
+        <div class="hero-inner">
+          <div class="hero-header-badge">
+            <span class="editor-id">NISHANT AGRAWAL</span>
+            <span class="separator">/</span>
+            <span class="editor-discipline">CINEMATIC EDITOR & COLORIST</span>
+          </div>
+
+          <!-- Dynamic Rotating Text Mask Headline -->
+          <h1 class="hero-headline">
+            I cut stories that<br>
+            <span class="rotating-mask-wrapper">
+              <span id="rotating-text-track" class="rotating-text-track">
+                <span class="rotating-item accent-text">hold attention.</span>
+                <span class="rotating-item accent-text">move audiences.</span>
+                <span class="rotating-item accent-text">sell visions.</span>
+                <span class="rotating-item accent-text">leave marks.</span>
+              </span>
+            </span>
+          </h1>
+
+          <p class="hero-subtext">
+            Sculpting high-retention short-form, kinetic brand commercials, and narrative documentaries. 
+            Blending technical 24fps discipline with psychology-driven pacing and master-grade color science.
+          </p>
+
+          <!-- Dual CTAs -->
+          <div class="hero-actions">
+            <button type="button" class="btn btn-primary" id="open-showreel-btn" data-cursor="PLAY">
+              <span class="btn-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </span>
+              <span>WATCH 2026 SHOWREEL</span>
+              <span class="key-shortcut">[SPACE]</span>
+            </button>
+            <a href="#work" class="btn btn-secondary" data-cursor="EXPLORE">
+              <span>EXPLORE TIMELINE</span>
+              <span class="btn-arrow">↓</span>
+            </a>
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div class="hero-metrics-bar">
+            <div class="metric-block">
+              <span class="metric-num">+200M</span>
+              <span class="metric-lbl">Views Generated</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-block">
+              <span class="metric-num">4+ YRS</span>
+              <span class="metric-lbl">In the Cutting Bay</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-block">
+              <span class="metric-num">98.4%</span>
+              <span class="metric-lbl">Audience Retention Score</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-block">
+              <span class="metric-num">100%</span>
+              <span class="metric-lbl">On-Time Delivery</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHAPTER 02: SHOWREEL TEASER CALLOUT -->
+    <section id="reel" class="nle-chapter reel-section" data-sequence="REEL_2026_4K_MASTER.prores" data-title="Showreel">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">02</span>
+            <span class="tag-name">THE SHOWREEL // 4K MASTER</span>
+          </div>
+          <h2 class="chapter-title">Rhythm. Impact. Resonance.</h2>
+          <p class="chapter-description">
+            A condensed 90-second distillation of commercial cuts, 3D motion graphics, 
+            and narrative pacing calibrated for modern human attention spans.
+          </p>
+        </div>
+
+        <div class="reel-preview-card" id="reel-card-trigger" data-cursor="PLAY">
+          <div class="reel-video-container">
+            <!-- Stylized Animated Canvas / Cinema Preview Frame -->
+            <canvas id="reel-preview-canvas" class="reel-preview-canvas"></canvas>
+            <div class="reel-overlay-scrim"></div>
+            
+            <div class="reel-center-play">
+              <div class="play-pulse-ring"></div>
+              <div class="play-button-hex">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                </svg>
+              </div>
+              <span class="play-text">PLAY SHOWREEL (4K UHD)</span>
+            </div>
+
+            <div class="reel-bottom-meta">
+              <div class="meta-item">
+                <span class="meta-dot"></span>
+                <span>ASPECT: 16:9 DCI 4K</span>
+              </div>
+              <div class="meta-item">AUDIO: 5.1 SURROUND BED</div>
+              <div class="meta-item">COLOR: DAVINCI WIDE GAMUT</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHAPTER 03: SELECTED WORK (Filterable Grid & Interactive Drawers) -->
+    <section id="work" class="nle-chapter work-section" data-sequence="SEQ_03_SELECTED_CUTS.prproj" data-title="Selected Cuts">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">03</span>
+            <span class="tag-name">PROJECT TIMELINE // SELECTED WORK</span>
+          </div>
+          <h2 class="chapter-title">Precision Cuts Across 4 Disciplines</h2>
+          <p class="chapter-description">
+            Every frame serves narrative intent. Explore commercial spots, viral retention architectures, 
+            narrative documentaries, and kinetic music films.
+          </p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="work-filters" role="tablist" aria-label="Project Categories">
+          <button type="button" class="filter-tab active" data-filter="all" role="tab" aria-selected="true">
+            ALL CUTS <span class="filter-count">(8)</span>
+          </button>
+          <button type="button" class="filter-tab" data-filter="viral" role="tab" aria-selected="false">
+            SHORT-FORM & VIRAL <span class="filter-count">(2)</span>
+          </button>
+          <button type="button" class="filter-tab" data-filter="narrative" role="tab" aria-selected="false">
+            NARRATIVE & DOC <span class="filter-count">(2)</span>
+          </button>
+          <button type="button" class="filter-tab" data-filter="music" role="tab" aria-selected="false">
+            MUSIC VIDEO <span class="filter-count">(2)</span>
+          </button>
+          <button type="button" class="filter-tab" data-filter="commercial" role="tab" aria-selected="false">
+            COMMERCIAL & 3D <span class="filter-count">(2)</span>
+          </button>
+        </div>
+
+        <!-- Projects Grid Container -->
+        <div class="projects-grid" id="projects-grid">
+          <!-- Populated dynamically via CONFIG.projects for pristine modularity -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROJECT CASE STUDY DRAWER MODAL -->
+    <div id="case-study-drawer" class="case-study-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+      <div class="drawer-backdrop" id="drawer-backdrop"></div>
+      <div class="drawer-panel">
+        
+        <!-- Drawer Header -->
+        <div class="drawer-header">
+          <div class="drawer-header-left">
+            <span id="drawer-seq" class="drawer-seq-tag">SEQ_01</span>
+            <span id="drawer-category" class="drawer-cat-tag">COMMERCIAL</span>
+          </div>
+          <button type="button" class="drawer-close-btn" id="drawer-close-btn" aria-label="Close Case Study [ESC]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Drawer Content -->
+        <div class="drawer-body">
+          <div class="drawer-media-frame" id="drawer-media-frame">
+            <!-- Dynamic visual or interactive canvas plate -->
+            <div class="drawer-plate-visual" id="drawer-plate-visual"></div>
+            <div class="drawer-frame-badges">
+              <span id="drawer-aspect" class="badge">16:9</span>
+              <span id="drawer-duration" class="badge">01:45</span>
+            </div>
+          </div>
+
+          <div class="drawer-text-content">
+            <h3 id="drawer-title" class="drawer-title">Project Title</h3>
+            <div class="drawer-client-meta">
+              <span class="meta-label">CLIENT / DIRECTOR:</span>
+              <span id="drawer-client" class="meta-value">Client Name</span>
+              <span class="meta-sep">•</span>
+              <span class="meta-label">ROLE:</span>
+              <span id="drawer-role" class="meta-value">Lead Editor & Colorist</span>
+            </div>
+
+            <div class="drawer-grid-details">
+              <div class="detail-box">
+                <div class="detail-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  THE EDITORIAL CHALLENGE
+                </div>
+                <p id="drawer-challenge" class="detail-p">Challenge description goes here.</p>
+              </div>
+
+              <div class="detail-box">
+                <div class="detail-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                  CUTTING TECHNIQUE & PACING
+                </div>
+                <p id="drawer-technique" class="detail-p">Technique description goes here.</p>
+              </div>
+
+              <div class="detail-box highlight-box">
+                <div class="detail-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                    <polyline points="17 6 23 6 23 12"></polyline>
+                  </svg>
+                  RETENTION & PERFORMANCE METRIC
+                </div>
+                <p id="drawer-metric" class="detail-metric">Metric output goes here.</p>
+              </div>
+
+              <div class="detail-box">
+                <div class="detail-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                  </svg>
+                  SOFTWARE STACK & WORKFLOW
+                </div>
+                <div id="drawer-tools" class="tools-tag-row"></div>
+              </div>
+            </div>
+
+            <div class="drawer-action-row">
+              <button type="button" class="btn btn-primary" id="drawer-action-showreel">
+                <span>VIEW IN SHOWREEL</span>
+              </button>
+              <button type="button" class="btn btn-secondary" id="drawer-action-close">
+                <span>CLOSE CASE STUDY</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CHAPTER 04: COLOR SCIENCE & EDIT BREAKDOWN (Before / After Slider) -->
+    <section id="grade" class="nle-chapter grade-section" data-sequence="LUT_GRADE_CONVERSION.drx" data-title="Color Science">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">04</span>
+            <span class="tag-name">COLOR SCIENCE // BEFORE & AFTER</span>
+          </div>
+          <h2 class="chapter-title">From Milky Flat Log to High-Fashion Cinema</h2>
+          <p class="chapter-description">
+            A look is not a filter; it is emotional architecture. Drag the interactive split wipe 
+            to inspect 10-bit Log sensor output versus DaVinci Resolve color master.
+          </p>
+        </div>
+
+        <!-- Interactive Split-Screen Wipe Container -->
+        <div class="split-slider-wrapper" id="split-slider-wrapper" data-cursor="DRAG">
+          <div class="split-slider-viewport" id="split-viewport">
+            
+            <!-- Layer B: Master Color Grade (Bottom / Background) -->
+            <div class="split-layer layer-after">
+              <div class="split-visual graded-plate">
+                <div class="plate-ambient-lighting"></div>
+                <div class="plate-lens-flare"></div>
+              </div>
+              <div class="split-badge badge-after">
+                <span class="badge-status">REC.709 MASTER</span>
+                <span class="badge-sub">35mm Film Halation • Contrast Matrix • Split Tones</span>
+              </div>
+            </div>
+
+            <!-- Layer A: Flat Log Gamma (Top / Clipped) -->
+            <div class="split-layer layer-before" id="split-before-layer">
+              <div class="split-visual log-plate">
+                <div class="log-haze"></div>
+              </div>
+              <div class="split-badge badge-before">
+                <span class="badge-status">C-LOG3 / S-LOG3 RAW</span>
+                <span class="badge-sub">0.0 IRE • Neutral Matrix • Dynamic Range Protected</span>
+              </div>
+            </div>
+
+            <!-- Draggable Split Wipe Bar -->
+            <div class="split-divider" id="split-divider" tabindex="0" role="slider" aria-label="Color Grade Split Position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+              <div class="divider-line"></div>
+              <div class="divider-handle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                  <polyline points="9 18 3 12 9 6" opacity="0.3"></polyline>
+                </svg>
+                <span class="handle-pip"></span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                  <polyline points="15 18 21 12 15 6" opacity="0.3"></polyline>
+                </svg>
+              </div>
+              <div class="divider-line"></div>
+            </div>
+
+          </div>
+
+          <!-- Color Scope & Controls Bar -->
+          <div class="split-controls-bar">
+            <div class="scope-telemetry">
+              <span class="scope-item"><span class="scope-pill">RGB PARADE:</span> BALANCED</span>
+              <span class="scope-item"><span class="scope-pill">BLACK LEVEL:</span> 0.05 IRE</span>
+              <span class="scope-item"><span class="scope-pill">HIGHLIGHTS:</span> 94.2 IRE PEAK</span>
+            </div>
+            <div class="split-hint">
+              <kbd class="kbd-key">←</kbd> <kbd class="kbd-key">→</kbd> Use keyboard arrows or drag to scrub look
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHAPTER 05: SERVICES ("The Tracks") -->
+    <section id="tracks" class="nle-chapter tracks-section" data-sequence="TIMELINE_TRACK_STACK.xml" data-title="The Tracks">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">05</span>
+            <span class="tag-name">CAPABILITIES // THE TIMELINE STACK</span>
+          </div>
+          <h2 class="chapter-title">Multitrack Production Capabilities</h2>
+          <p class="chapter-description">
+            Styled as an active NLE Track Stack. Click Mute (M) or Solo (S) to isolate layers, 
+            or expand any track to view deliverables and turnaround benchmarks.
+          </p>
+        </div>
+
+        <!-- The Track Stack Interface -->
+        <div class="track-stack-board" id="track-stack-board">
+          
+          <!-- Track V3: 3D & VFX -->
+          <div class="nle-track" data-track="v3">
+            <div class="track-header">
+              <div class="track-controls">
+                <span class="track-id">V3</span>
+                <button type="button" class="track-btn track-mute" aria-label="Mute Track V3" title="Mute Track">M</button>
+                <button type="button" class="track-btn track-solo" aria-label="Solo Track V3" title="Solo Track">S</button>
+                <span class="track-lock-icon">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="track-info">
+                <h3 class="track-name">3D Generalist & VFX Compositing</h3>
+                <span class="track-badge">BLENDER • AFTER EFFECTS</span>
+              </div>
+              <button type="button" class="track-expand-btn" aria-expanded="false" aria-label="Toggle Details">
+                <span class="expand-text">DELIVERABLES</span>
+                <span class="expand-chevron">▾</span>
+              </button>
+            </div>
+            <div class="track-lane">
+              <div class="track-clip-block clip-color-cyan" style="width: 82%;">
+                <span class="clip-label">3D Product Renders // Camera Tracking // Particle FX</span>
+                <span class="clip-duration">00:03:15:00</span>
+              </div>
+            </div>
+            <div class="track-drawer">
+              <div class="drawer-grid">
+                <div class="drawer-col">
+                  <h4>What I Deliver:</h4>
+                  <ul>
+                    <li>Hyper-realistic 3D product visualizations & hero camera pans (Blender Cycles)</li>
+                    <li>3D camera motion tracking, screen replacements, and clean-plate set extensions</li>
+                    <li>Kinetic glass, chrome, and neon CGI simulations tailored for brand commercials</li>
+                  </ul>
+                </div>
+                <div class="drawer-col">
+                  <h4>Turnaround & Scope:</h4>
+                  <p>Typical delivery: 3–7 business days per shot. Full 4K OpenEXR / ProRes 4444 passes.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track V2: Motion Design -->
+          <div class="nle-track" data-track="v2">
+            <div class="track-header">
+              <div class="track-controls">
+                <span class="track-id">V2</span>
+                <button type="button" class="track-btn track-mute" aria-label="Mute Track V2" title="Mute Track">M</button>
+                <button type="button" class="track-btn track-solo" aria-label="Solo Track V2" title="Solo Track">S</button>
+                <span class="track-lock-icon">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="track-info">
+                <h3 class="track-name">Motion Design & Kinetic Typography</h3>
+                <span class="track-badge">AFTER EFFECTS • LOTTIE</span>
+              </div>
+              <button type="button" class="track-expand-btn" aria-expanded="false" aria-label="Toggle Details">
+                <span class="expand-text">DELIVERABLES</span>
+                <span class="expand-chevron">▾</span>
+              </button>
+            </div>
+            <div class="track-lane">
+              <div class="track-clip-block clip-color-purple" style="width: 95%;">
+                <span class="clip-label">Dynamic Type Ramps // Lower Thirds // HUD Overlays</span>
+                <span class="clip-duration">00:04:45:12</span>
+              </div>
+            </div>
+            <div class="track-drawer">
+              <div class="drawer-grid">
+                <div class="drawer-col">
+                  <h4>What I Deliver:</h4>
+                  <ul>
+                    <li>Custom kinetic typography timed down to the musical transient</li>
+                    <li>Sleek futuristic HUD interfaces, animated graphs, and infographics</li>
+                    <li>High-impact title cards and fluid custom logo stingers</li>
+                  </ul>
+                </div>
+                <div class="drawer-col">
+                  <h4>Turnaround & Scope:</h4>
+                  <p>Typical delivery: 48–72 hours. Delivered with alpha channel transparency.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track V1: Master Narrative Cut -->
+          <div class="nle-track active-track" data-track="v1">
+            <div class="track-header">
+              <div class="track-controls">
+                <span class="track-id">V1</span>
+                <button type="button" class="track-btn track-mute" aria-label="Mute Track V1" title="Mute Track">M</button>
+                <button type="button" class="track-btn track-solo active" aria-label="Solo Track V1" title="Solo Track">S</button>
+                <span class="track-lock-icon">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="track-info">
+                <h3 class="track-name">Master Narrative & Commercial Editing</h3>
+                <span class="track-badge">PREMIERE PRO • DAVINCI</span>
+              </div>
+              <button type="button" class="track-expand-btn" aria-expanded="false" aria-label="Toggle Details">
+                <span class="expand-text">DELIVERABLES</span>
+                <span class="expand-chevron">▾</span>
+              </button>
+            </div>
+            <div class="track-lane">
+              <div class="track-clip-block clip-color-cyan" style="width: 100%;">
+                <span class="clip-label">A-Roll Assembly // J-Cuts & L-Cuts // Pacing Architecture</span>
+                <span class="clip-duration">00:08:24:00</span>
+              </div>
+            </div>
+            <div class="track-drawer">
+              <div class="drawer-grid">
+                <div class="drawer-col">
+                  <h4>What I Deliver:</h4>
+                  <ul>
+                    <li>Deep narrative structuring, selecting the gold-standard takes from raw footage</li>
+                    <li>Sub-second pacing calibrated to retain viewer engagement across the entire curve</li>
+                    <li>Seamless invisible match cuts, whip transitions, and speed ramping</li>
+                  </ul>
+                </div>
+                <div class="drawer-col">
+                  <h4>Turnaround & Scope:</h4>
+                  <p>Rough cut within 48 hours; Director cut in 4–5 days. 2 comprehensive revision passes included.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track A1: Foley & Sound Design -->
+          <div class="nle-track" data-track="a1">
+            <div class="track-header">
+              <div class="track-controls">
+                <span class="track-id">A1</span>
+                <button type="button" class="track-btn track-mute" aria-label="Mute Track A1" title="Mute Track">M</button>
+                <button type="button" class="track-btn track-solo" aria-label="Solo Track A1" title="Solo Track">S</button>
+                <span class="track-lock-icon">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="track-info">
+                <h3 class="track-name">Foley, SFX & Cinematic Sound Mix</h3>
+                <span class="track-badge">FAIRLIGHT • AUDITION</span>
+              </div>
+              <button type="button" class="track-expand-btn" aria-expanded="false" aria-label="Toggle Details">
+                <span class="expand-text">DELIVERABLES</span>
+                <span class="expand-chevron">▾</span>
+              </button>
+            </div>
+            <div class="track-lane">
+              <div class="track-clip-block clip-color-green" style="width: 90%;">
+                <span class="clip-label">Sub-Bass Drops // Risers & Whooshes // Dialogue EQ & Compression</span>
+                <span class="clip-duration">00:08:24:00</span>
+              </div>
+            </div>
+            <div class="track-drawer">
+              <div class="drawer-grid">
+                <div class="drawer-col">
+                  <h4>What I Deliver:</h4>
+                  <ul>
+                    <li>Multi-layered tactile foley (mechanical clicks, fabric rustles, environmental texture)</li>
+                    <li>Surgical dialogue cleanup (noise isolation, de-reverb, tonal EQ, broadcast loudness)</li>
+                    <li>Psychoacoustic tension builds, custom risers, cinematic impacts, and musical ducking</li>
+                  </ul>
+                </div>
+                <div class="drawer-col">
+                  <h4>Turnaround & Scope:</h4>
+                  <p>Integrated seamlessly into narrative passes or delivered as isolated WAV stems (-14 LUFS / -16 LUFS).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track A2: Subtitles & Social Retention Hooks -->
+          <div class="nle-track" data-track="a2">
+            <div class="track-header">
+              <div class="track-controls">
+                <span class="track-id">A2</span>
+                <button type="button" class="track-btn track-mute" aria-label="Mute Track A2" title="Mute Track">M</button>
+                <button type="button" class="track-btn track-solo" aria-label="Solo Track A2" title="Solo Track">S</button>
+                <span class="track-lock-icon">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="track-info">
+                <h3 class="track-name">Dynamic Subtitles & Pattern Interrupts</h3>
+                <span class="track-badge">CAPCUT PRO • AFTER EFFECTS</span>
+              </div>
+              <button type="button" class="track-expand-btn" aria-expanded="false" aria-label="Toggle Details">
+                <span class="expand-text">DELIVERABLES</span>
+                <span class="expand-chevron">▾</span>
+              </button>
+            </div>
+            <div class="track-lane">
+              <div class="track-clip-block clip-color-yellow" style="width: 75%;">
+                <span class="clip-label">Hormozi-Style Captions // B-Roll Popups // Sound Hook Synced</span>
+                <span class="clip-duration">00:01:00:00</span>
+              </div>
+            </div>
+            <div class="track-drawer">
+              <div class="drawer-grid">
+                <div class="drawer-col">
+                  <h4>What I Deliver:</h4>
+                  <ul>
+                    <li>High-energy karaoke animated captions with custom brand colors and bold highlighting</li>
+                    <li>Strategic pattern interrupts every 2.5–3.5 seconds to crush drop-off rates</li>
+                    <li>Platform-optimized vertical exports for Reels, TikTok, and YouTube Shorts</li>
+                  </ul>
+                </div>
+                <div class="drawer-col">
+                  <h4>Turnaround & Scope:</h4>
+                  <p>24–48 hours rapid turnaround for batch short-form packs.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHAPTER 06: PROCESS ("The Cut Workflow") -->
+    <section id="workflow" class="nle-chapter workflow-section" data-sequence="WORKFLOW_PIPELINE.edl" data-title="Cut Pipeline">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">06</span>
+            <span class="tag-name">THE CUT PIPELINE // 5-STAGE SPRINT</span>
+          </div>
+          <h2 class="chapter-title">From Raw Rushes to Broadcast Master</h2>
+          <p class="chapter-description">
+            A battle-tested editorial system designed for frictionless collaboration, zero guesswork, 
+            and guaranteed on-time delivery.
+          </p>
+        </div>
+
+        <!-- Workflow Stages Grid / Rail -->
+        <div class="workflow-rail">
+          
+          <!-- Stage 1 -->
+          <div class="workflow-card">
+            <div class="card-step-num">01</div>
+            <div class="card-status-badge">INGEST & SYNC</div>
+            <h3 class="card-step-title">Assembly & Logging</h3>
+            <p class="card-step-desc">
+              Footage ingestion, multi-camera audio sync, transcription breakdown, and selects reel assembly. 
+              Eliminating the noise to reveal core story beats.
+            </p>
+            <div class="card-step-meta">
+              <span>DAY 1</span>
+              <span>•</span>
+              <span>SELECTS TIMELINE</span>
+            </div>
+          </div>
+
+          <!-- Stage 2 -->
+          <div class="workflow-card">
+            <div class="card-step-num">02</div>
+            <div class="card-status-badge">PACING PASS</div>
+            <h3 class="card-step-title">The Rough Cut</h3>
+            <p class="card-step-desc">
+              Sculpting the primary narrative spine. Calibrating retention hooks in the first 3 seconds, 
+              establishing pacing tempo, and building narrative anticipation.
+            </p>
+            <div class="card-step-meta">
+              <span>DAY 2–3</span>
+              <span>•</span>
+              <span>FIRST LOOK V1</span>
+            </div>
+          </div>
+
+          <!-- Stage 3 -->
+          <div class="workflow-card">
+            <div class="card-step-num">03</div>
+            <div class="card-status-badge">POLISH PASS</div>
+            <h3 class="card-step-title">The Director's Cut</h3>
+            <p class="card-step-desc">
+              Integrating frame-accurate sound design, dynamic pattern interrupts, J/L audio overlaps, 
+              and client review notes via Frame.io markers.
+            </p>
+            <div class="card-step-meta">
+              <span>DAY 4–5</span>
+              <span>•</span>
+              <span>LOCKED CUT</span>
+            </div>
+          </div>
+
+          <!-- Stage 4 -->
+          <div class="workflow-card">
+            <div class="card-step-num">04</div>
+            <div class="card-status-badge">COLOR & MIX</div>
+            <h3 class="card-step-title">Color Science & Audio Master</h3>
+            <p class="card-step-desc">
+              DaVinci Resolve color grade, film stock emulation (Kodak 5207 / 2383 LUTs), 
+              clean skin tone separation, and broadcast-standard audio mastering (-14 LUFS).
+            </p>
+            <div class="card-step-meta">
+              <span>DAY 6</span>
+              <span>•</span>
+              <span>FINAL GRADE</span>
+            </div>
+          </div>
+
+          <!-- Stage 5 -->
+          <div class="workflow-card">
+            <div class="card-step-num">05</div>
+            <div class="card-status-badge">DELIVERY</div>
+            <h3 class="card-step-title">Master Export & Hand-off</h3>
+            <p class="card-step-desc">
+              Rendering master ProRes 422 HQ / 4444 XQ archives, platform-optimized MP4 deliverables, 
+              clean textless stems, and vertical cutdowns.
+            </p>
+            <div class="card-step-meta">
+              <span>DAY 7</span>
+              <span>•</span>
+              <span>BROADCAST READY</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHAPTER 07: TOOLKIT (Infinite Tape Marquee) -->
+    <section id="toolkit" class="nle-chapter toolkit-section" data-sequence="HARDWARE_HOTKEYS.fcpx" data-title="Suite & Tools">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">07</span>
+            <span class="tag-name">THE EDIT SUITE // HOTKEYS & HARDWARE</span>
+          </div>
+          <h2 class="chapter-title">Backlit Console & Software Engine</h2>
+          <p class="chapter-description">
+            Muscle memory honed over thousands of timeline hours. Powered by industry-standard 
+            editorial suites and precision shortcuts.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Infinite Marquee Track -->
+      <div class="toolkit-marquee-viewport" aria-hidden="true">
+        <div class="toolkit-marquee-track" id="marquee-track">
+          
+          <!-- Keycap 1 -->
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">C</span>
+              <span class="key-sub">RAZOR</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">Adobe Premiere Pro</span>
+              <span class="app-role">Primary Cut & Assembly</span>
+            </div>
+          </div>
+
+          <!-- Keycap 2 -->
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">Shift+Z</span>
+              <span class="key-sub">FIT</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">DaVinci Resolve Studio</span>
+              <span class="app-role">Color Grading & Fairlight Mix</span>
+            </div>
+          </div>
+
+          <!-- Keycap 3 -->
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">U</span>
+              <span class="key-sub">KEYS</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">After Effects</span>
+              <span class="app-role">Kinetic Motion & VFX</span>
+            </div>
+          </div>
+
+          <!-- Keycap 4 -->
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">G</span>
+              <span class="key-sub">GRAB</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">Blender 3D</span>
+              <span class="app-role">3D Models, Lighting & Renders</span>
+            </div>
+          </div>
+
+          <!-- Keycap 5 -->
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">R</span>
+              <span class="key-sub">AUDIO</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">Adobe Audition</span>
+              <span class="app-role">Surgical Spectral Cleanup</span>
+            </div>
+          </div>
+
+          <!-- Keycap 6 -->
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">Ctrl+T</span>
+              <span class="key-sub">TRANSFORM</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">Adobe Photoshop</span>
+              <span class="app-role">Asset Prep & Thumbnails</span>
+            </div>
+          </div>
+
+          <!-- Keycap 7 -->
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">B</span>
+              <span class="key-sub">RIPPLE</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">CapCut Pro</span>
+              <span class="app-role">High-Conversion Short Hooks</span>
+            </div>
+          </div>
+
+          <!-- Clone set for continuous infinite loop -->
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">C</span>
+              <span class="key-sub">RAZOR</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">Adobe Premiere Pro</span>
+              <span class="app-role">Primary Cut & Assembly</span>
+            </div>
+          </div>
+
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">Shift+Z</span>
+              <span class="key-sub">FIT</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">DaVinci Resolve Studio</span>
+              <span class="app-role">Color Grading & Fairlight Mix</span>
+            </div>
+          </div>
+
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">U</span>
+              <span class="key-sub">KEYS</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">After Effects</span>
+              <span class="app-role">Kinetic Motion & VFX</span>
+            </div>
+          </div>
+
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">G</span>
+              <span class="key-sub">GRAB</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">Blender 3D</span>
+              <span class="app-role">3D Models, Lighting & Renders</span>
+            </div>
+          </div>
+
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">R</span>
+              <span class="key-sub">AUDIO</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">Adobe Audition</span>
+              <span class="app-role">Surgical Spectral Cleanup</span>
+            </div>
+          </div>
+
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">Ctrl+T</span>
+              <span class="key-sub">TRANSFORM</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">Adobe Photoshop</span>
+              <span class="app-role">Asset Prep & Thumbnails</span>
+            </div>
+          </div>
+
+          <div class="keycap-item">
+            <div class="keycap-cap">
+              <span class="key-glyph">B</span>
+              <span class="key-sub">RIPPLE</span>
+            </div>
+            <div class="keycap-info">
+              <span class="app-name">CapCut Pro</span>
+              <span class="app-role">High-Conversion Short Hooks</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 08: ABOUT (The Editor's Bay) -->
+    <section id="about" class="nle-chapter about-section" data-sequence="EDITORS_BAY_PROFILE.raw" data-title="About Nishant">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">08</span>
+            <span class="tag-name">THE CUTTING BAY // BEHIND THE SCREENS</span>
+          </div>
+          <h2 class="chapter-title">The Mind Behind the Pacing</h2>
+          <p class="chapter-description">
+            Editing is the final rewrite of any story. Meet the creative technologist obsessed with 
+            frame-perfect storytelling.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          
+          <!-- Column Left: Visual Portrait Card with Duotone Treatment -->
+          <div class="about-card-visual" id="about-card-visual">
+            <div class="portrait-container">
+              <!-- Stylized Editor Persona SVG / Graphic Plate -->
+              <div class="editor-portrait-plate">
+                <div class="portrait-avatar-frame">
+                  <div class="avatar-glow"></div>
+                  <div class="avatar-graphic">
+                    <svg viewBox="0 0 200 200" class="avatar-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="100" cy="100" r="95" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"></circle>
+                      <circle cx="100" cy="100" r="75" stroke="currentColor" stroke-width="1" opacity="0.6"></circle>
+                      <path d="M100 45 C75 45 55 65 55 90 C55 110 70 128 90 133 L90 155 L110 155 L110 133 C130 128 145 110 145 90 C145 65 125 45 100 45 Z" fill="currentColor" opacity="0.15"></path>
+                      <path d="M70 85 Q100 65 130 85 Q100 105 70 85" stroke="currentColor" stroke-width="2" fill="none"></path>
+                      <circle cx="100" cy="85" r="8" fill="var(--accent)"></circle>
+                      <text x="100" y="180" text-anchor="middle" fill="currentColor" font-size="10" font-family="JetBrains Mono" letter-spacing="2">NISHANT // AGRAWAL</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="portrait-telemetry-badge">
+                  <span class="tele-dot"></span>
+                  <span>BASE: VARANASI, INDIA • AVAILABLE GLOBALLY</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-direct-contacts">
+              <a href="https://www.instagram.com/editaura36?stkn=MWk5ZmF1c3MxdnRrMQ==" target="_blank" rel="noopener noreferrer" class="social-btn">
+                <span>INSTAGRAM: @editaura36</span>
+                <span class="arrow-out">↗</span>
+              </a>
+              <a href="https://youtube.com/@editaura36-i3y?si=RJv3pDf4QzrNLRry" target="_blank" rel="noopener noreferrer" class="social-btn">
+                <span>YOUTUBE: @editaura36</span>
+                <span class="arrow-out">↗</span>
+              </a>
+              <button type="button" class="social-btn copy-email-btn" id="about-copy-email">
+                <span>EMAIL: nishantagrawal12022007@gmail.com</span>
+                <span class="copy-badge">COPY</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Column Right: Creative Narrative Bio & Counters -->
+          <div class="about-card-text">
+            <h3 class="about-intro-title">
+              "Great editing is invisible when you feel it, and unforgettable when you remember it."
+            </h3>
+
+            <div class="about-paragraphs">
+              <p>
+                I'm <strong>Nishant Agrawal</strong>, operating under the moniker <strong>EDITAURA</strong>. 
+                Over the past 4+ years, I have lived inside timelines, shaping raw unedited rushes into 
+                high-octane visual experiences that have accumulated <strong>over 200 million views</strong> 
+                across YouTube, Instagram, and commercial campaigns.
+              </p>
+              <p>
+                My approach bridges two worlds: the <strong>mathematical discipline of retention</strong> 
+                (micro-hooks, sound sync, pacing rhythm) and the <strong>artistry of cinema</strong> 
+                (nuanced color grading, subtle film grain, dynamic lighting, and immersive foley beds).
+              </p>
+              <p>
+                Whether I'm constructing a 30-second viral short that commands attention past the critical 3-second drop, 
+                or grading an emotional narrative documentary in DaVinci Resolve, my focus remains razor sharp: 
+                <strong>maximize emotional impact per second</strong>.
+              </p>
+            </div>
+
+            <!-- Quantitative Impact Grid -->
+            <div class="about-stats-grid">
+              <div class="stat-card">
+                <span class="stat-number">+200M</span>
+                <span class="stat-label">Organic Views Generated</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">4+ Yrs</span>
+                <span class="stat-label">Timeline Experience</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Strict Deadline Adherence</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">4.9/5</span>
+                <span class="stat-label">Director Satisfaction Rating</span>
+              </div>
+            </div>
+
+            <div class="about-cta-row">
+              <a href="#contact" class="btn btn-primary">
+                <span>COMMISSION AN EDIT</span>
+              </a>
+              <button type="button" class="btn btn-secondary" id="download-cv-btn">
+                <span>DOWNLOAD WORK SPEC (PDF)</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHAPTER 09: TESTIMONIALS ("Director Review Notes") -->
+    <section id="reviews" class="nle-chapter reviews-section" data-sequence="FRAME_IO_FEEDBACK.mkv" data-title="Review Notes">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">09</span>
+            <span class="tag-name">CLIENT NOTES // FRAME.IO TIMECODE MARKERS</span>
+          </div>
+          <h2 class="chapter-title">Director & Creator Feedback</h2>
+          <p class="chapter-description">
+            Actual review markers left during collaborative timeline passes. 
+            Real results from real directors, brand leads, and creators.
+          </p>
+        </div>
+
+        <!-- Marker Cards Grid -->
+        <div class="markers-grid">
+          
+          <!-- Card 1 -->
+          <div class="marker-card">
+            <div class="marker-header">
+              <div class="marker-tag marker-red">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:00:03:12</span>
+              </div>
+              <span class="marker-client-role">YOUTUBE CREATOR (1.4M SUBS)</span>
+            </div>
+            <p class="marker-quote">
+              "The hook pacing Nishant engineered on our recent series doubled our 3-second retention rate 
+              from 42% to 81%. He doesn't just cut; he understands how modern brains watch video."
+            </p>
+            <div class="marker-author">
+              <div class="author-avatar">AM</div>
+              <div class="author-details">
+                <span class="author-name">Alex Mercer</span>
+                <span class="author-title">Documentary Filmmaker & Creator</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="marker-card">
+            <div class="marker-header">
+              <div class="marker-tag marker-cyan">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:01:24:08</span>
+              </div>
+              <span class="marker-client-role">CREATIVE AGENCY DIRECTOR</span>
+            </div>
+            <p class="marker-quote">
+              "Turnaround speed was unreal. Handed Nishant 400GB of mixed RED and Sony raw footage on Tuesday, 
+              and had an assembly that blew our agency team away by Thursday night. Highly recommended."
+            </p>
+            <div class="marker-author">
+              <div class="author-avatar">SK</div>
+              <div class="author-details">
+                <span class="author-name">Siddharth Kapoor</span>
+                <span class="author-title">Creative Director, Studio Apex</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="marker-card">
+            <div class="marker-header">
+              <div class="marker-tag marker-yellow">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:02:48:21</span>
+              </div>
+              <span class="marker-client-role">RECORD LABEL PRODUCER</span>
+            </div>
+            <p class="marker-quote">
+              "His sound design pass alone makes the edit feel 10x bigger. The sub-drops, risers, and vocal stutter 
+              match-cuts turned a standard music video into an award-worthy visual trip."
+            </p>
+            <div class="marker-author">
+              <div class="author-avatar">VR</div>
+              <div class="author-details">
+                <span class="author-name">Varun Rao</span>
+                <span class="author-title">Music Producer & Visual Lead</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="marker-card">
+            <div class="marker-header">
+              <div class="marker-tag marker-green">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:04:12:00</span>
+              </div>
+              <span class="marker-client-role">D2C BRAND FOUNDER</span>
+            </div>
+            <p class="marker-quote">
+              "We scaled our brand ads from \$10k/mo to \$80k/mo ad spend off the back of the 6 short-form reels 
+              Nishant edited and graded. The ROAS jumped instantly. He is our go-to post lead."
+            </p>
+            <div class="marker-author">
+              <div class="author-avatar">EL</div>
+              <div class="author-details">
+                <span class="author-name">Elena Lindqvist</span>
+                <span class="author-title">CMO, Lumina Lifestyle</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHAPTER 10: CONTACT ("Let's Roll Camera") -->
+    <section id="contact" class="nle-chapter contact-section" data-sequence="EXPORT_DELIVERY_SPEC.mov" data-title="Export & Contact">
+      <div class="section-container">
+        
+        <div class="chapter-header">
+          <div class="chapter-tag">
+            <span class="tag-index">10</span>
+            <span class="tag-name">EXPORT SPEC // INITIATE COMMISSION</span>
+          </div>
+          <h2 class="chapter-title">Ready to Roll Cameras?</h2>
+          <p class="chapter-description">
+            Whether you have raw rushes waiting in the cloud or need an editorial partner from pre-production, 
+            submit your project parameters below for a 24-hour turnaround estimate.
+          </p>
+        </div>
+
+        <div class="contact-card-console">
+          
+          <!-- Contact Left: Direct Channels & Instant Email Copy -->
+          <div class="contact-channels-panel">
+            <div class="panel-header">
+              <span class="panel-status-diode"></span>
+              <span class="panel-status-text">COMMISSIONS OPEN FOR 2026</span>
+            </div>
+
+            <div class="direct-email-box">
+              <span class="box-label">PRIMARY TRANSMISSION CHANNEL:</span>
+              <div class="email-copy-bar">
+                <span class="email-value" id="display-email">nishantagrawal12022007@gmail.com</span>
+                <button type="button" class="email-copy-action" id="contact-copy-btn" aria-label="Copy Email Address">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span id="copy-btn-label">COPY</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="social-channels-list">
+              <span class="box-label">DIRECT SOCIAL COMMS:</span>
+              <div class="social-links-grid">
+                <a href="https://www.instagram.com/editaura36?stkn=MWk5ZmF1c3MxdnRrMQ==" target="_blank" rel="noopener noreferrer" class="social-tile">
+                  <div class="tile-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </div>
+                  <div class="tile-info">
+                    <span class="tile-platform">INSTAGRAM</span>
+                    <span class="tile-user">@editaura36</span>
+                  </div>
+                </a>
+
+                <a href="https://youtube.com/@editaura36-i3y?si=RJv3pDf4QzrNLRry" target="_blank" rel="noopener noreferrer" class="social-tile">
+                  <div class="tile-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  </div>
+                  <div class="tile-info">
+                    <span class="tile-platform">YOUTUBE</span>
+                    <span class="tile-user">@editaura36</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="editorial-guarantee-box">
+              <span class="guarantee-title">THE EDITAURA GUARANTEE:</span>
+              <ul class="guarantee-list">
+                <li>Initial rough cut delivered within 48–72 hours</li>
+                <li>Frame.io cloud collaboration with sub-frame notes</li>
+                <li>Full commercial rights and ProRes 4444 archives</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Contact Right: Interactive Intake Form -->
+          <div class="contact-form-panel">
+            <form id="project-intake-form" class="project-intake-form" novalidate>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="client-name" class="form-label">YOUR NAME / COMPANY <span class="required">*</span></label>
+                  <input type="text" id="client-name" name="name" class="form-input" placeholder="e.g. Alex Vance, Vance Media" required>
+                  <span class="form-error-msg" id="name-error">Please state your name or organization.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="client-email" class="form-label">YOUR EMAIL ADDRESS <span class="required">*</span></label>
+                  <input type="email" id="client-email" name="email" class="form-input" placeholder="alex@vancemedia.com" required>
+                  <span class="form-error-msg" id="email-error">Please provide a valid contact email.</span>
+                </div>
+              </div>
+
+              <!-- Project Type Pills -->
+              <div class="form-group">
+                <label class="form-label">PROJECT DISCIPLINE <span class="required">*</span></label>
+                <div class="discipline-pills" role="radiogroup" aria-label="Project Discipline">
+                  <button type="button" class="discipline-pill active" data-discipline="short-form">Short-Form / Viral Pack</button>
+                  <button type="button" class="discipline-pill" data-discipline="commercial">Commercial / Ad Campaign</button>
+                  <button type="button" class="discipline-pill" data-discipline="narrative">Documentary / Narrative</button>
+                  <button type="button" class="discipline-pill" data-discipline="music">Music Video</button>
+                  <button type="button" class="discipline-pill" data-discipline="vfx-3d">3D & VFX Spec</button>
+                </div>
+                <input type="hidden" name="discipline" id="selected-discipline" value="short-form">
+              </div>
+
+              <!-- Budget Range Matrix -->
+              <div class="form-group">
+                <label class="form-label">ESTIMATED BUDGET PARAMETER (USD)</label>
+                <div class="budget-matrix" role="radiogroup" aria-label="Budget Range">
+                  <button type="button" class="budget-pill" data-budget="$500 - $1,500">$500 – $1.5K</button>
+                  <button type="button" class="budget-pill active" data-budget="$1,500 - $3,500">$1.5K – $3.5K</button>
+                  <button type="button" class="budget-pill" data-budget="$3,500 - $6,000">$3.5K – $6K</button>
+                  <button type="button" class="budget-pill" data-budget="$6,000+">$6K+ (Enterprise)</button>
+                </div>
+                <input type="hidden" name="budget" id="selected-budget" value="$1,500 - $3,500">
+              </div>
+
+              <!-- Project Scope / Brief -->
+              <div class="form-group">
+                <label for="project-brief" class="form-label">PROJECT SCOPE & TARGET TIMELINE <span class="required">*</span></label>
+                <textarea id="project-brief" name="brief" class="form-textarea" rows="4" placeholder="Detail raw footage length, references, desired deliverables, and target deadline..." required></textarea>
+                <span class="form-error-msg" id="brief-error">Please provide a brief summary of the edit parameters.</span>
+              </div>
+
+              <div class="form-submit-row">
+                <button type="submit" class="btn btn-primary submit-btn" id="submit-brief-btn">
+                  <span class="submit-spinner" aria-hidden="true"></span>
+                  <span class="submit-text">DISPATCH PROJECT BRIEF</span>
+                  <span class="submit-arrow">→</span>
+                </button>
+                <span class="submit-subnote">No spam. Guaranteed confidential NDA compliance.</span>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHAPTER 11: THE OUT POINT (FOOTER) -->
+    <footer id="out-point" class="out-point-section" data-sequence="OUT_POINT_WRAP.prproj" data-title="Out Point">
+      <div class="section-container">
+        
+        <div class="out-point-banner">
+          <div class="out-timecode-wrap">
+            <span class="out-tag">SEQUENCE OUT POINT:</span>
+            <span class="out-timecode">00:23:59:24</span>
+          </div>
+          <div class="wrap-statement">THAT'S A WRAP.</div>
+        </div>
+
+        <div class="footer-meta-deck">
+          <div class="footer-col-brand">
+            <div class="brand-footer-name">EDITAURA</div>
+            <p class="brand-footer-sub">Cinematic NLE Portfolio for Nishant Agrawal (@editaura36).</p>
+            <div class="live-clock-badge">
+              <span class="clock-icon">🕒</span>
+              <span id="studio-clock">00:00:00 IST</span>
+              <span class="clock-label">(Varanasi / IST)</span>
+            </div>
+          </div>
+
+          <div class="footer-col-nav">
+            <span class="footer-header">CHAPTERS</span>
+            <ul class="footer-nav-list">
+              <li><a href="#hero">01 // Cold Open</a></li>
+              <li><a href="#reel">02 // 2026 Showreel</a></li>
+              <li><a href="#work">03 // Selected Work</a></li>
+              <li><a href="#grade">04 // Color Science</a></li>
+              <li><a href="#tracks">05 // Track Stack</a></li>
+              <li><a href="#workflow">06 // Cut Pipeline</a></li>
+              <li><a href="#about">07 // The Editor's Bay</a></li>
+              <li><a href="#contact">08 // Initiate Project</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col-telemetry">
+            <span class="footer-header">STATUS</span>
+            <div class="telemetry-block">
+              <div class="telemetry-row">
+                <span class="diode active-green"></span>
+                <span>SYSTEM HEALTH: 100% OPERATIONAL</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="diode active-green"></span>
+                <span>COMMISSIONS: AVAILABLE</span>
+              </div>
+              <div class="telemetry-row">
+                <span>FPS: 24.00 SMPTE TIMEBASE</span>
+              </div>
+            </div>
+
+            <!-- Back to Top Playhead Jump -->
+            <button type="button" class="back-to-top-btn" id="back-to-top-btn">
+              <span>RETURN TO IN POINT [TOP]</span>
+              <span class="top-icon">↑</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="footer-bottom-bar">
+          <span>&copy; 2026 EDITAURA / Nishant Agrawal. All rights reserved.</span>
+          <span>Crafted with 24fps cinematic precision. Zero external build tools.</span>
+        </div>
+
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- FIXED FOOTER PLAYHEAD SCRUBBER (SCRUB BAR) -->
+  <aside id="footer-scrubber" class="footer-scrubber" role="region" aria-label="Timeline Scrubber">
+    <div class="scrubber-inner">
+      
+      <!-- Timecode at Scrubber Start -->
+      <div class="scrubber-hud-left">
+        <span class="hud-in-tag">IN [00:00:00:00]</span>
+      </div>
+
+      <!-- Scrubber Track with Chapter Anchors -->
+      <div class="scrubber-track-wrap" id="scrubber-track-wrap">
+        <div class="scrubber-track" id="scrubber-track">
+          
+          <!-- Chapter markers along timeline -->
+          <button type="button" class="scrub-chapter" data-target="#hero" title="Cold Open">
+            <span class="chap-marker"></span>
+            <span class="chap-label">HERO</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#reel" title="Showreel">
+            <span class="chap-marker"></span>
+            <span class="chap-label">REEL</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#work" title="Selected Work">
+            <span class="chap-marker"></span>
+            <span class="chap-label">WORK</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#grade" title="Color Grade">
+            <span class="chap-marker"></span>
+            <span class="chap-label">GRADE</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#tracks" title="The Tracks">
+            <span class="chap-marker"></span>
+            <span class="chap-label">TRACKS</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#workflow" title="Cut Workflow">
+            <span class="chap-marker"></span>
+            <span class="chap-label">FLOW</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#toolkit" title="Hotkeys & Suite">
+            <span class="chap-marker"></span>
+            <span class="chap-label">SUITE</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#about" title="Editor's Bay">
+            <span class="chap-marker"></span>
+            <span class="chap-label">ABOUT</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#reviews" title="Review Notes">
+            <span class="chap-marker"></span>
+            <span class="chap-label">NOTES</span>
+          </button>
+          <button type="button" class="scrub-chapter" data-target="#contact" title="Export & Contact">
+            <span class="chap-marker"></span>
+            <span class="chap-label">CONTACT</span>
+          </button>
+
+          <!-- The Draggable Red Playhead Needle -->
+          <div class="scrubber-playhead" id="scrubber-playhead">
+            <div class="playhead-top-notch"></div>
+            <div class="playhead-needle"></div>
+            <div class="playhead-tooltip" id="playhead-tooltip">00:00:00:00</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Scrubber Right Telemetry -->
+      <div class="scrubber-hud-right">
+        <span class="hud-out-tag">OUT [00:23:59:24]</span>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- SHOWREEL CINEMA MODAL -->
+  <dialog id="showreel-modal" class="showreel-modal" aria-labelledby="showreel-title">
+    <div class="modal-backdrop" id="showreel-backdrop"></div>
+    <div class="modal-dialog-content">
+      
+      <!-- Modal Top Bar -->
+      <div class="modal-top-bar">
+        <div class="modal-brand-tag">
+          <span class="modal-rec-dot"></span>
+          <span id="showreel-title">EDITAURA // 2026 CINEMATIC SHOWREEL (4K DCI)</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="showreel-close-btn" aria-label="Close Showreel [ESC]">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Cinema Screen Frame -->
+      <div class="modal-video-viewport">
+        <!-- Interactive Canvas / Video Player Plate -->
+        <canvas id="modal-video-canvas" class="modal-video-canvas"></canvas>
+        <div class="video-crosshairs" aria-hidden="true"></div>
+
+        <!-- Center Big Play Overlay -->
+        <div class="video-center-controls" id="video-center-controls">
+          <button type="button" class="modal-play-trigger" id="modal-play-trigger" aria-label="Play or Pause Showreel">
+            <svg id="center-play-icon" width="36" height="36" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Custom Cinema Transport Bar -->
+      <div class="modal-transport-bar">
+        <!-- Left: Play/Pause button -->
+        <button type="button" class="transport-btn" id="transport-play-btn" aria-label="Play/Pause">
+          <svg id="transport-play-svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6 4 20 12 6 20 6 4"></polygon>
+          </svg>
+        </button>
+
+        <!-- Timecode Display -->
+        <div class="transport-timecode" id="modal-timecode">00:00:00:00</div>
+
+        <!-- Video Scrubber Progress Track -->
+        <div class="transport-scrub-wrap" id="modal-scrub-wrap">
+          <div class="transport-scrub-bar" id="modal-scrub-bar">
+            <div class="transport-scrub-fill" id="modal-scrub-fill"></div>
+            <div class="transport-scrub-thumb" id="modal-scrub-thumb"></div>
+          </div>
+        </div>
+
+        <!-- Total Reel Duration -->
+        <div class="transport-duration">00:01:30:00</div>
+
+        <!-- Volume Toggle & Slider -->
+        <div class="transport-volume-wrap">
+          <button type="button" class="transport-btn" id="transport-mute-btn" aria-label="Mute/Unmute">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+          <input type="range" class="volume-slider" id="modal-volume-slider" min="0" max="1" step="0.05" value="0.8" aria-label="Reel Volume">
+        </div>
+
+        <!-- Fullscreen Toggle -->
+        <button type="button" class="transport-btn" id="transport-fullscreen-btn" aria-label="Toggle Fullscreen">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Keyboard Shortcuts Hint Bar -->
+      <div class="modal-hotkey-bar">
+        <span><kbd>SPACE</kbd> Play / Pause</span>
+        <span><kbd>←</kbd> <kbd>→</kbd> Scrub -/+ 1 Sec</span>
+        <span><kbd>M</kbd> Mute Audio</span>
+        <span><kbd>ESC</kbd> Close Player</span>
+      </div>
+
+    </div>
+  </dialog>
+
+  <!-- MICRO-TOAST NOTIFICATION HUD -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- APPLICATION SCRIPT -->
+  <script src="script.js"></script>
+
+</body>
+</html>

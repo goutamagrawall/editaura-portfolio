@@ -1,0 +1,19 @@
+# Audit screenshots and test artifacts
+audit_*.png
+shot*.png
+test*.png
+test_*.png
+*.log
+
+# Scratch and test audit scripts
+cdp_*.js
+capture_hero_audit.js
+test_box_heights.js
+dom_output.html
+implementation_plan.md
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
