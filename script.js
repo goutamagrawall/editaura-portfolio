@@ -875,28 +875,24 @@ function initCaseStudyDrawer() {
   const actionClose = document.getElementById("drawer-action-close");
   const actionShowreel = document.getElementById("drawer-action-showreel");
 
-  function closeDrawer() {
-    if (drawer) {
-      drawer.classList.remove("is-open");
-      drawer.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
+  if (closeBtn) closeBtn.addEventListener("click", closeCaseStudyDrawer);
+  if (backdrop) {
+    backdrop.addEventListener("click", closeCaseStudyDrawer);
+    backdrop.addEventListener("wheel", (e) => e.preventDefault(), { passive: false });
+    backdrop.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
   }
-
-  if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
-  if (backdrop) backdrop.addEventListener("click", closeDrawer);
-  if (actionClose) actionClose.addEventListener("click", closeDrawer);
+  if (actionClose) actionClose.addEventListener("click", closeCaseStudyDrawer);
 
   if (actionShowreel) {
     actionShowreel.addEventListener("click", () => {
-      closeDrawer();
+      closeCaseStudyDrawer();
       openShowreel();
     });
   }
 
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && drawer && drawer.classList.contains("is-open")) {
-      closeDrawer();
+      closeCaseStudyDrawer();
     }
   });
 }
@@ -930,9 +926,38 @@ function openCaseStudy(project) {
       .join("");
   }
 
+  // Reset drawer panel scroll position to top
+  const panel = drawer.querySelector(".drawer-panel");
+  if (panel) {
+    panel.scrollTop = 0;
+  }
+
   drawer.classList.add("is-open");
   drawer.setAttribute("aria-hidden", "false");
+
+  // Lock background scrolling completely (Lenis + Body class)
+  document.body.classList.add("modal-open");
+  document.documentElement.classList.add("modal-open");
   document.body.style.overflow = "hidden";
+  if (lenis) {
+    lenis.stop();
+  }
+}
+
+function closeCaseStudyDrawer() {
+  const drawer = document.getElementById("case-study-drawer");
+  if (!drawer) return;
+
+  drawer.classList.remove("is-open");
+  drawer.setAttribute("aria-hidden", "true");
+
+  // Unlock background scrolling
+  document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
+  document.body.style.overflow = "";
+  if (lenis) {
+    lenis.start();
+  }
 }
 
 // ============================================================================
@@ -1102,7 +1127,10 @@ function openShowreel() {
   const modal = document.getElementById("showreel-modal");
   if (!modal) return;
   modal.setAttribute("open", "");
+  document.body.classList.add("modal-open");
+  document.documentElement.classList.add("modal-open");
   document.body.style.overflow = "hidden";
+  if (lenis) lenis.stop();
   isReelPlaying = true;
   startReelCanvas();
   updateReelTransportUI();
@@ -1112,7 +1140,10 @@ function closeShowreel() {
   const modal = document.getElementById("showreel-modal");
   if (!modal) return;
   modal.removeAttribute("open");
+  document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
   document.body.style.overflow = "";
+  if (lenis) lenis.start();
   isReelPlaying = false;
   if (showreelCanvasAnim) cancelAnimationFrame(showreelCanvasAnim);
 }
@@ -1466,11 +1497,7 @@ function initHotkeys() {
         if (typeof window.closeSideNavTray === "function") {
           window.closeSideNavTray();
         }
-        const drawer = document.getElementById("case-study-drawer");
-        if (drawer && drawer.classList.contains("is-open")) {
-          drawer.classList.remove("is-open");
-          document.body.style.overflow = "";
-        }
+        closeCaseStudyDrawer();
         break;
 
       case "1":

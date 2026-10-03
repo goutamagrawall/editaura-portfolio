@@ -1895,16 +1895,24 @@ img, video, canvas {
   opacity: 0.8;
 }
 
-/* Projects Grid */
+/* Projects Grid - 4 Columns on Desktop, Responsive 2 on Tablet, 1 on Mobile */
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
+  gap: 20px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
   }
 }
 
@@ -1933,11 +1941,11 @@ img, video, canvas {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 10px 14px;
   background-color: var(--bg-surface-elevated);
   border-bottom: 1px solid var(--hairline);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   letter-spacing: 0.08em;
 }
 
@@ -1996,13 +2004,13 @@ img, video, canvas {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
-  padding: 8px 16px;
+  padding: 6px 14px;
   background-color: var(--accent);
   color: #0B0B0C;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.70rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   border-radius: var(--radius-sm);
   opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2017,7 +2025,7 @@ img, video, canvas {
 
 /* Project Content Footer */
 .card-content {
-  padding: 20px 24px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -2025,26 +2033,26 @@ img, video, canvas {
 
 .card-category-tag {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   letter-spacing: 0.1em;
   color: var(--accent);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .card-title {
   font-family: var(--font-body);
-  font-size: 1.35rem;
+  font-size: clamp(1.05rem, 1.15vw, 1.25rem);
   font-weight: 600;
   line-height: 1.25;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .card-excerpt {
-  font-size: 0.9rem;
+  font-size: 0.84rem;
   color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 16px;
+  line-height: 1.45;
+  margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -2057,9 +2065,9 @@ img, video, canvas {
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--hairline);
-  padding-top: 12px;
+  padding-top: 10px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--text-dim);
 }
 
@@ -2070,6 +2078,13 @@ img, video, canvas {
 /* --------------------------------------------------------------------------
    9. CASE STUDY DRAWER MODAL
    -------------------------------------------------------------------------- */
+body.modal-open,
+html.modal-open {
+  overflow: hidden !important;
+  height: 100% !important;
+  overscroll-behavior: none;
+}
+
 .case-study-drawer {
   position: fixed;
   top: 0;
@@ -2080,6 +2095,8 @@ img, video, canvas {
   display: none;
   align-items: flex-end;
   justify-content: center;
+  overscroll-behavior: contain;
+  touch-action: none;
 }
 
 .case-study-drawer.is-open {
@@ -2107,8 +2124,65 @@ img, video, canvas {
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   box-shadow: 0 -20px 80px rgba(0, 0, 0, 0.9);
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   z-index: 2;
   animation: drawerSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Sleek Minimalist Custom Scrollbar for Chrome / Edge / Safari / WebKit */
+.drawer-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.drawer-panel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-full);
+  margin: 6px 0;
+}
+
+.drawer-panel::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-rgb), 0.55);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.35);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.drawer-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.drawer-panel::-webkit-scrollbar-thumb:active {
+  background: var(--accent-hover);
+}
+
+/* Light Theme WebKit Scrollbar */
+[data-theme="light"] .drawer-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .drawer-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 155, 201, 0.6);
+  box-shadow: 0 0 6px rgba(0, 155, 201, 0.25);
+}
+
+[data-theme="light"] .drawer-panel::-webkit-scrollbar-thumb:hover {
+  background: #009BC9;
+  box-shadow: 0 0 12px rgba(0, 155, 201, 0.45);
+}
+
+/* Firefox Fallback (Standard CSS Scrollbars when ::-webkit-scrollbar is unsupported) */
+@supports not selector(::-webkit-scrollbar) {
+  .drawer-panel {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--accent-rgb), 0.55) rgba(255, 255, 255, 0.04);
+  }
+
+  [data-theme="light"] .drawer-panel {
+    scrollbar-color: rgba(0, 155, 201, 0.6) rgba(0, 0, 0, 0.06);
+  }
 }
 
 @keyframes drawerSlideUp {
