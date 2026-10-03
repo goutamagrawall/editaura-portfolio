@@ -1424,13 +1424,16 @@ function initFeedbackMarquee() {
     return card;
   }
 
-  track.innerHTML = "";
-
-  // Render 2 complete duplicate sets for seamless 100% infinite CSS marquee looping (-50%)
-  const itemsToRender = [...CONFIG.testimonials, ...CONFIG.testimonials];
-  itemsToRender.forEach((item) => {
-    track.appendChild(createFeedbackCard(item));
-  });
+  // Only re-render if track is empty or item count differs from CONFIG.testimonials * 2
+  const expectedCount = CONFIG.testimonials.length * 2;
+  if (track.children.length !== expectedCount) {
+    track.innerHTML = "";
+    // Render 2 complete duplicate sets for seamless 100% infinite CSS marquee looping (-50%)
+    const itemsToRender = [...CONFIG.testimonials, ...CONFIG.testimonials];
+    itemsToRender.forEach((item) => {
+      track.appendChild(createFeedbackCard(item));
+    });
+  }
 
   // Touch and interaction support: pause on touch, resume on release
   if (viewport) {

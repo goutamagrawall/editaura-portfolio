@@ -22,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Core Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2.2">
 
   <!-- External Libraries: Lenis & GSAP CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -1526,7 +1526,151 @@
       <!-- Infinite Marquee Track (Matching Section 07) -->
       <div class="feedback-marquee-viewport" id="feedback-marquee-viewport" aria-label="Director & Creator Feedback Reviews">
         <div class="feedback-marquee-track" id="feedback-marquee-track">
-          <!-- Dynamically populated from CONFIG.testimonials in script.js -->
+          <!-- Set A: 4 Testimonials -->
+          <div class="marker-card" role="article" aria-label="Review from Alex Mercer">
+            <div class="marker-header">
+              <div class="marker-tag marker-red">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:00:03:12</span>
+              </div>
+              <span class="marker-client-role">YOUTUBE CREATOR (1.4M SUBS)</span>
+            </div>
+            <p class="marker-quote">"The hook pacing Nishant engineered on our recent series doubled our 3-second retention rate from 42% to 81%. He doesn't just cut; he understands how modern brains watch video."</p>
+            <div class="marker-author">
+              <div class="author-avatar">AM</div>
+              <div class="author-details">
+                <span class="author-name">Alex Mercer</span>
+                <span class="author-title">Documentary Filmmaker &amp; Creator</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card" role="article" aria-label="Review from Siddharth Kapoor">
+            <div class="marker-header">
+              <div class="marker-tag marker-cyan">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:01:24:08</span>
+              </div>
+              <span class="marker-client-role">CREATIVE AGENCY DIRECTOR</span>
+            </div>
+            <p class="marker-quote">"Turnaround speed was unreal. Handed Nishant 400GB of mixed RED and Sony raw footage on Tuesday, and had an assembly that blew our agency team away by Thursday night. Highly recommended."</p>
+            <div class="marker-author">
+              <div class="author-avatar">SK</div>
+              <div class="author-details">
+                <span class="author-name">Siddharth Kapoor</span>
+                <span class="author-title">Creative Director, Studio Apex</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card" role="article" aria-label="Review from Varun Rao">
+            <div class="marker-header">
+              <div class="marker-tag marker-yellow">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:02:48:21</span>
+              </div>
+              <span class="marker-client-role">RECORD LABEL PRODUCER</span>
+            </div>
+            <p class="marker-quote">"His sound design pass alone makes the edit feel 10x bigger. The sub-drops, risers, and vocal stutter match-cuts turned a standard music video into an award-worthy visual trip."</p>
+            <div class="marker-author">
+              <div class="author-avatar">VR</div>
+              <div class="author-details">
+                <span class="author-name">Varun Rao</span>
+                <span class="author-title">Music Producer &amp; Visual Lead</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card" role="article" aria-label="Review from Elena Lindqvist">
+            <div class="marker-header">
+              <div class="marker-tag marker-green">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:04:12:00</span>
+              </div>
+              <span class="marker-client-role">D2C BRAND FOUNDER</span>
+            </div>
+            <p class="marker-quote">"We scaled our brand ads from $10k/mo to $80k/mo ad spend off the back of the 6 short-form reels Nishant edited and graded. The ROAS jumped instantly. He is our go-to post lead."</p>
+            <div class="marker-author">
+              <div class="author-avatar">EL</div>
+              <div class="author-details">
+                <span class="author-name">Elena Lindqvist</span>
+                <span class="author-title">CMO, Lumina Lifestyle</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Set B: Seamless Infinite Duplicates -->
+          <div class="marker-card" role="article" aria-label="Review from Alex Mercer">
+            <div class="marker-header">
+              <div class="marker-tag marker-red">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:00:03:12</span>
+              </div>
+              <span class="marker-client-role">YOUTUBE CREATOR (1.4M SUBS)</span>
+            </div>
+            <p class="marker-quote">"The hook pacing Nishant engineered on our recent series doubled our 3-second retention rate from 42% to 81%. He doesn't just cut; he understands how modern brains watch video."</p>
+            <div class="marker-author">
+              <div class="author-avatar">AM</div>
+              <div class="author-details">
+                <span class="author-name">Alex Mercer</span>
+                <span class="author-title">Documentary Filmmaker &amp; Creator</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card" role="article" aria-label="Review from Siddharth Kapoor">
+            <div class="marker-header">
+              <div class="marker-tag marker-cyan">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:01:24:08</span>
+              </div>
+              <span class="marker-client-role">CREATIVE AGENCY DIRECTOR</span>
+            </div>
+            <p class="marker-quote">"Turnaround speed was unreal. Handed Nishant 400GB of mixed RED and Sony raw footage on Tuesday, and had an assembly that blew our agency team away by Thursday night. Highly recommended."</p>
+            <div class="marker-author">
+              <div class="author-avatar">SK</div>
+              <div class="author-details">
+                <span class="author-name">Siddharth Kapoor</span>
+                <span class="author-title">Creative Director, Studio Apex</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card" role="article" aria-label="Review from Varun Rao">
+            <div class="marker-header">
+              <div class="marker-tag marker-yellow">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:02:48:21</span>
+              </div>
+              <span class="marker-client-role">RECORD LABEL PRODUCER</span>
+            </div>
+            <p class="marker-quote">"His sound design pass alone makes the edit feel 10x bigger. The sub-drops, risers, and vocal stutter match-cuts turned a standard music video into an award-worthy visual trip."</p>
+            <div class="marker-author">
+              <div class="author-avatar">VR</div>
+              <div class="author-details">
+                <span class="author-name">Varun Rao</span>
+                <span class="author-title">Music Producer &amp; Visual Lead</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card" role="article" aria-label="Review from Elena Lindqvist">
+            <div class="marker-header">
+              <div class="marker-tag marker-green">
+                <span class="marker-pip"></span>
+                <span class="marker-timecode">00:04:12:00</span>
+              </div>
+              <span class="marker-client-role">D2C BRAND FOUNDER</span>
+            </div>
+            <p class="marker-quote">"We scaled our brand ads from $10k/mo to $80k/mo ad spend off the back of the 6 short-form reels Nishant edited and graded. The ROAS jumped instantly. He is our go-to post lead."</p>
+            <div class="marker-author">
+              <div class="author-avatar">EL</div>
+              <div class="author-details">
+                <span class="author-name">Elena Lindqvist</span>
+                <span class="author-title">CMO, Lumina Lifestyle</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1914,7 +2058,7 @@
   <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <!-- APPLICATION SCRIPT -->
-  <script src="script.js"></script>
+  <script src="script.js?v=2.2"></script>
 
 </body>
 </html>
