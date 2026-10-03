@@ -162,6 +162,48 @@ const CONFIG = {
       themeColor: "#00E676",
       bgGradient: "linear-gradient(135deg, #091f11 0%, #114223 50%, #030e06 100%)"
     }
+  ],
+  testimonials: [
+    {
+      id: "test-1",
+      tagClass: "marker-red",
+      timecode: "00:00:03:12",
+      clientRole: "YOUTUBE CREATOR (1.4M SUBS)",
+      quote: "The hook pacing Nishant engineered on our recent series doubled our 3-second retention rate from 42% to 81%. He doesn't just cut; he understands how modern brains watch video.",
+      avatar: "AM",
+      authorName: "Alex Mercer",
+      authorTitle: "Documentary Filmmaker & Creator"
+    },
+    {
+      id: "test-2",
+      tagClass: "marker-cyan",
+      timecode: "00:01:24:08",
+      clientRole: "CREATIVE AGENCY DIRECTOR",
+      quote: "Turnaround speed was unreal. Handed Nishant 400GB of mixed RED and Sony raw footage on Tuesday, and had an assembly that blew our agency team away by Thursday night. Highly recommended.",
+      avatar: "SK",
+      authorName: "Siddharth Kapoor",
+      authorTitle: "Creative Director, Studio Apex"
+    },
+    {
+      id: "test-3",
+      tagClass: "marker-yellow",
+      timecode: "00:02:48:21",
+      clientRole: "RECORD LABEL PRODUCER",
+      quote: "His sound design pass alone makes the edit feel 10x bigger. The sub-drops, risers, and vocal stutter match-cuts turned a standard music video into an award-worthy visual trip.",
+      avatar: "VR",
+      authorName: "Varun Rao",
+      authorTitle: "Music Producer & Visual Lead"
+    },
+    {
+      id: "test-4",
+      tagClass: "marker-green",
+      timecode: "00:04:12:00",
+      clientRole: "D2C BRAND FOUNDER",
+      quote: "We scaled our brand ads from $10k/mo to $80k/mo ad spend off the back of the 6 short-form reels Nishant edited and graded. The ROAS jumped instantly. He is our go-to post lead.",
+      avatar: "EL",
+      authorName: "Elena Lindqvist",
+      authorTitle: "CMO, Lumina Lifestyle"
+    }
   ]
 };
 
@@ -183,6 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initShowreelModal();
   initScrubberEngine();
   initToolkitMarquee();
+  initFeedbackMarquee();
   initVaranasiClock();
   initDirectContacts();
   initContactForm();
@@ -1346,6 +1389,63 @@ function initToolkitMarquee() {
     velocity = e.deltaY > 0 ? 2.5 : -2.5;
     setTimeout(() => { velocity = 1; }, 400);
   }, { passive: true });
+}
+
+// ============================================================================
+// 13.5. INFINITE FEEDBACK MARQUEE (SECTION 09 - DYNAMIC ARRAY RENDERING)
+// ============================================================================
+function initFeedbackMarquee() {
+  const track = document.getElementById("feedback-marquee-track");
+  const viewport = document.getElementById("feedback-marquee-viewport");
+  if (!track || !CONFIG.testimonials || CONFIG.testimonials.length === 0) return;
+
+  function createFeedbackCard(item) {
+    const card = document.createElement("div");
+    card.className = "marker-card";
+    card.setAttribute("role", "article");
+    card.setAttribute("aria-label", `Review from ${item.authorName}`);
+    card.innerHTML = `
+      <div class="marker-header">
+        <div class="marker-tag ${item.tagClass}">
+          <span class="marker-pip"></span>
+          <span class="marker-timecode">${item.timecode}</span>
+        </div>
+        <span class="marker-client-role">${item.clientRole}</span>
+      </div>
+      <p class="marker-quote">"${item.quote.replace(/^"|"$/g, "")}"</p>
+      <div class="marker-author">
+        <div class="author-avatar">${item.avatar}</div>
+        <div class="author-details">
+          <span class="author-name">${item.authorName}</span>
+          <span class="author-title">${item.authorTitle}</span>
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  track.innerHTML = "";
+
+  // Render 2 complete duplicate sets for seamless 100% infinite CSS marquee looping (-50%)
+  const itemsToRender = [...CONFIG.testimonials, ...CONFIG.testimonials];
+  itemsToRender.forEach((item) => {
+    track.appendChild(createFeedbackCard(item));
+  });
+
+  // Touch and interaction support: pause on touch, resume on release
+  if (viewport) {
+    viewport.addEventListener("touchstart", () => {
+      track.style.animationPlayState = "paused";
+    }, { passive: true });
+
+    viewport.addEventListener("touchend", () => {
+      track.style.animationPlayState = "running";
+    }, { passive: true });
+
+    viewport.addEventListener("touchcancel", () => {
+      track.style.animationPlayState = "running";
+    }, { passive: true });
+  }
 }
 
 // ============================================================================

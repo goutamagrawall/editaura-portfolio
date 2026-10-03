@@ -3353,34 +3353,91 @@ html.modal-open {
 }
 
 /* --------------------------------------------------------------------------
-   15. CHAPTER 09: TESTIMONIALS ("Director Review Notes")
+   15. CHAPTER 09: TESTIMONIALS ("Director Review Notes" - Infinite Marquee Track)
    -------------------------------------------------------------------------- */
-.markers-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+.reviews-section {
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 96px;
 }
 
-@media (min-width: 768px) {
-  .markers-grid {
-    grid-template-columns: repeat(2, 1fr);
+.feedback-marquee-viewport {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  overflow: hidden;
+  position: relative;
+  padding: 14px 0 28px 0;
+  cursor: grab;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+.feedback-marquee-viewport::before,
+.feedback-marquee-viewport::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.feedback-marquee-viewport::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg-primary) 0%, transparent 100%);
+}
+
+.feedback-marquee-viewport::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg-primary) 0%, transparent 100%);
+}
+
+.feedback-marquee-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 24px;
+  width: max-content;
+  animation: feedbackContinuousScroll 40s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes feedbackContinuousScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
+.feedback-marquee-viewport:hover .feedback-marquee-track {
+  animation-play-state: paused;
+}
+
 .marker-card {
+  width: 400px;
+  min-width: 400px;
+  max-width: 420px;
+  flex-shrink: 0;
   background-color: var(--bg-surface);
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--hairline-strong);
   border-radius: var(--radius-md);
   padding: 28px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease;
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  user-select: none;
 }
 
 .marker-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   border-color: var(--accent);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 20px var(--accent-glow);
 }
 
 .marker-header {
@@ -3429,7 +3486,7 @@ html.modal-open {
 }
 
 .marker-quote {
-  font-size: 1.05rem;
+  font-size: 0.98rem;
   color: var(--text-primary);
   line-height: 1.6;
   margin-bottom: 24px;
@@ -3443,6 +3500,7 @@ html.modal-open {
   gap: 14px;
   border-top: 1px solid var(--hairline);
   padding-top: 16px;
+  margin-top: auto;
 }
 
 .author-avatar {
@@ -3458,6 +3516,7 @@ html.modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .author-details {
@@ -3475,6 +3534,58 @@ html.modal-open {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--text-muted);
+}
+
+/* Mobile & Smartphone Optimization (<= 768px) */
+@media (max-width: 768px) {
+  .reviews-section {
+    padding-bottom: 60px;
+  }
+
+  .feedback-marquee-viewport::before,
+  .feedback-marquee-viewport::after {
+    width: 32px;
+  }
+
+  .feedback-marquee-track {
+    gap: 16px;
+    animation-duration: 30s;
+  }
+
+  .marker-card {
+    width: 85vw;
+    min-width: 280px;
+    max-width: 320px;
+    padding: 20px 18px;
+  }
+
+  .marker-quote {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+  .marker-header {
+    margin-bottom: 14px;
+  }
+
+  .marker-client-role {
+    font-size: 0.62rem;
+  }
+
+  .author-avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 0.75rem;
+  }
+
+  .author-name {
+    font-size: 0.88rem;
+  }
+
+  .author-title {
+    font-size: 0.66rem;
+  }
 }
 
 /* --------------------------------------------------------------------------
