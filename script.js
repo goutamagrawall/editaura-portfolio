@@ -822,7 +822,7 @@ function initProjectsGrid() {
         <div class="card-visual-frame ${project.aspect === '9:16' ? 'aspect-9-16' : ''}">
           <div class="card-canvas-plate" style="background: ${project.bgGradient}; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative;">
             <div style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 700; color: rgba(255,255,255,0.12);">${project.seq}</div>
-            <div style="position: absolute; bottom: 12px; left: 14px; font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.7); letter-spacing: 0.1em;">${project.role}</div>
+            <div class="card-role-label">${project.role}</div>
           </div>
           <div class="card-visual-overlay"></div>
           <div class="card-hover-prompt">OPEN CASE STUDY</div>
@@ -870,6 +870,7 @@ function initProjectsGrid() {
 // ============================================================================
 function initCaseStudyDrawer() {
   const drawer = document.getElementById("case-study-drawer");
+  const panel = drawer ? drawer.querySelector(".drawer-panel") : null;
   const closeBtn = document.getElementById("drawer-close-btn");
   const backdrop = document.getElementById("drawer-backdrop");
   const actionClose = document.getElementById("drawer-action-close");
@@ -878,9 +879,26 @@ function initCaseStudyDrawer() {
   if (closeBtn) closeBtn.addEventListener("click", closeCaseStudyDrawer);
   if (backdrop) {
     backdrop.addEventListener("click", closeCaseStudyDrawer);
-    backdrop.addEventListener("wheel", (e) => e.preventDefault(), { passive: false });
-    backdrop.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
+    backdrop.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, { passive: false });
+    backdrop.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, { passive: false });
   }
+
+  // Prevent wheel and touchmove from propagating to window/Lenis listeners
+  if (drawer) {
+    drawer.addEventListener("wheel", (e) => e.stopPropagation(), { passive: true });
+    drawer.addEventListener("touchmove", (e) => e.stopPropagation(), { passive: true });
+  }
+  if (panel) {
+    panel.addEventListener("wheel", (e) => e.stopPropagation(), { passive: true });
+    panel.addEventListener("touchmove", (e) => e.stopPropagation(), { passive: true });
+  }
+
   if (actionClose) actionClose.addEventListener("click", closeCaseStudyDrawer);
 
   if (actionShowreel) {
